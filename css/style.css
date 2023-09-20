@@ -1,5 +1,11 @@
 body {
    background-color: #e6e6e6;
+   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+   font-weight: 300;
+}
+
+p{
+    margin:0;
 }
 
 .main-bar {
@@ -12,10 +18,15 @@ body {
 }
 
 .top-bar {
-    height: 500px;
+    height: 445px;
     background: #f7f0f0; 
     border-radius: 3px;
     box-shadow: 0 0 2px gray;
+
+    padding-left:15px;
+    padding-right:15px;
+    padding-top:15px;
+    
 }
 
 .bottom-bar {
@@ -24,4 +35,25 @@ body {
     height: 100px;
     background: green;
     display:none;
+}
+
+.text-bar {
+    text-align: justify;
+    height: 369px;
+}
+
+.input-bar {
+    margin-top:20px;
+    background: green;
+}
+
+.input-box {
+    width: 662px;
+    height: 35px;
+    font-size: 18px;
+}
+
+/* #d93333 #ED2B2A red for wrong */
+.highlight {
+    background: #CBFFA9;
 }
