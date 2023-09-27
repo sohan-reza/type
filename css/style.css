@@ -8,7 +8,7 @@ p{
     margin:0;
 }
 
-.main-bar {
+#main-bar {
     width:700px;
     height:550px;
     position: absolute;
@@ -17,7 +17,7 @@ p{
     transform: translate(-50%, -50%)
 }
 
-.top-bar {
+#top-bar {
     height: 445px;
     background: #f7f0f0; 
     border-radius: 3px;
@@ -29,7 +29,7 @@ p{
     
 }
 
-.bottom-bar {
+#bottom-bar {
     position: relative;
     top:5px;
     height: 100px;
@@ -37,23 +37,23 @@ p{
     display:none;
 }
 
-.text-bar {
+#text-bar {
     text-align: justify;
     height: 369px;
 }
 
-.input-bar {
+#input-bar {
     margin-top:20px;
     background: green;
 }
 
-.input-box {
+#input-box {
     width: 662px;
     height: 35px;
     font-size: 18px;
 }
 
 /* #d93333 #ED2B2A red for wrong */
-.highlight {
-    background: #CBFFA9;
+#highlight {
+    /*background: #CBFFA9;*/
 }
