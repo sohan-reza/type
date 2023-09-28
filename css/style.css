@@ -50,8 +50,14 @@ p{
 #input-box {
     width: 662px;
     height: 35px;
-    font-size: 18px;
+    font-size: 22px;
 }
+
+/*
+box-shadow: 0px 0px 3px #ED2B2A;
+background: #E8302F;
+border: 2px solid #a45050;
+*/
 
 /* #d93333 #ED2B2A red for wrong */
 #highlight {

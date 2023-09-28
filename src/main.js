@@ -33,17 +33,24 @@ p_tag.innerHTML=first_paragraph;
 let i=0;
 
 let lock=true;
+let forrowed=0;
 
 document.addEventListener('keydown', (e)=>{
   let k = document.getElementById("highlight");
+  let i_box = document.getElementById("input-box");
   //k.style.backgroundColor="#CBFFA9";
-  
   
   
     if(e.key!==words[index][i]) {
       //avoid first (Shift + key)'s shift
-      if(!(e.key==="Shift" || e.key==="CapsLock" ||e.key==="Backspace")) {
-        k.style.backgroundColor="red";
+      if(!(e.key==="Shift" || e.key==="CapsLock" || e.key==="Backspace")) {
+        k.style.backgroundColor="#ED2B2A";
+        
+        if((first == false) && (e.key.charAt(0) != " ")){
+          i_box.style.backgroundColor="#E8302F";
+          i_box.style.shadow = "0px 0px 3px #ED2B2A";
+          i_box.style.borderStyle = "2px solid #a45050";
+        }
         console.log(`${e.key} !== ${words[index][i]}`);
         //if wrong key is pressed then stop index to incress
         lock=false;
@@ -51,6 +58,11 @@ document.addEventListener('keydown', (e)=>{
     }else{
       console.log(`${e.key} === ${words[index][i]}`);
       k.style.backgroundColor="#CBFFA9";
+
+      i_box.style.backgroundColor='';
+      i_box.style.shadow = '';
+      i_box.style.borderStyle = '';
+
       lock=true;
     }
     if(!(e.key==="Control" || e.key==="Shift" || e.key==="CapsLock" || e.key==="Tab"|| e.key==="Escape"|| e.key==="Backspace" || e.key==="Enter")) {
@@ -63,7 +75,7 @@ document.addEventListener('keydown', (e)=>{
       //p_tag.innerHTML = first_paragraph;
       first=false;
     }else{
-      if(e.key.charCodeAt(0)==32) {
+      if(e.key.charCodeAt(0)==32 && i==words[index].length) {
         if(index < words.length) {
           index++;
           count+=1; //for space
