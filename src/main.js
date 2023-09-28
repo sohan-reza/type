@@ -30,70 +30,110 @@ let first_paragraph = `<span id="highlight">${words[index]}</span>`+paragraph.su
 p_tag.innerHTML=first_paragraph;
 
 
-let i=0;
+let i = 0;
 
-let lock=true;
-let forrowed=0;
+let lock = false;
+let forrowed = 0;
+
 
 document.addEventListener('keydown', (e)=>{
   let k = document.getElementById("highlight");
   let i_box = document.getElementById("input-box");
   //k.style.backgroundColor="#CBFFA9";
-  
-  
-    if(e.key!==words[index][i]) {
-      //avoid first (Shift + key)'s shift
-      if(!(e.key==="Shift" || e.key==="CapsLock" || e.key==="Backspace")) {
-        k.style.backgroundColor="#ED2B2A";
+    
+
+
+    if (e.key === "Backspace") {
+        console.log(`decressed ${forrowed} ${i}`);  
+        forrowed--;
+        if (forrowed == 0) {
+          lock = false;
         
-        if((first == false) && (e.key.charAt(0) != " ")){
-          i_box.style.backgroundColor="#E8302F";
-          i_box.style.shadow = "0px 0px 3px #ED2B2A";
-          i_box.style.borderStyle = "2px solid #a45050";
+          return;
         }
-        console.log(`${e.key} !== ${words[index][i]}`);
-        //if wrong key is pressed then stop index to incress
-        lock=false;
-      }
-    }else{
-      console.log(`${e.key} === ${words[index][i]}`);
-      k.style.backgroundColor="#CBFFA9";
-
-      i_box.style.backgroundColor='';
-      i_box.style.shadow = '';
-      i_box.style.borderStyle = '';
-
-      lock=true;
+        if (forrowed < 0 && i>0) {
+            console.log("Afds");
+            i--;
+            forrowed = 0;
+            //return;
+        }else if(forrowed<0 && i==0) {
+          forrowed = 0;
+        }
+        
     }
-    if(!(e.key==="Control" || e.key==="Shift" || e.key==="CapsLock" || e.key==="Tab"|| e.key==="Escape"|| e.key==="Backspace" || e.key==="Enter")) {
-      if(lock) { 
-        i++;
-      }
+
+
+    if (lock && (e.key !== "Backspace") && (forrowed > 0)) {
+      console.log(`incressed ${forrowed} ${i}`);  
+      forrowed++;
     }
+
+    
+    //console.log(i, forrowed);
+    if (!lock) {
+        
+        if (e.key !== words[index][i]) {
+            //avoid first (Shift + key)'s shift 
+            if (!(e.key.charAt(0) === ' ' || e.key === "Shift" || e.key === "CapsLock" || e.key === "Backspace")) {
+                //console.log(e.key.charAt(0) === ' ');
+                k.style.backgroundColor = "#ED2B2A";
+                if ((first == false) && (e.key.charAt(0) != " ")) {
+                    i_box.style.backgroundColor = "#E8302F";
+                    i_box.style.shadow = "0px 0px 3px #ED2B2A";
+                    i_box.style.borderStyle = "2px solid #a45050";
+                }
+                //console.log(`${e.key} !== ${words[index][i]}`);
+                //if wrong key is pressed then stop index to incress
+                lock = true;
+                forrowed++;
+            }
+        } else {
+            console.log(`${e.key} === ${words[index][i]}`);
+            k.style.backgroundColor = "#CBFFA9";
+
+            i_box.style.backgroundColor = '';
+            i_box.style.shadow = '';
+            i_box.style.borderStyle = '';
+
+            lock = false;
+        }
+
+
+        if (!(e.key.charAt(0) === ' ' || e.key === "Control" || e.key==="Shift" || e.key==="CapsLock" || e.key==="Tab"|| e.key==="Escape"|| e.key==="Backspace" || e.key==="Enter")) {
+            if (!lock) { 
+              i++;
+            }
+        }
+    
+      if (first) {
+        first = false;
+      } else {
+        if(e.key.charCodeAt(0)==32 && i==words[index].length) {
+          if(index < words.length) {
+            index++;
+            count+=1; //for space
+            let len = words[index].length;
+            p_tag.innerHTML = paragraph.substring(0, count) + `<span id="highlight">${words[index]}</span>` + paragraph.substring(count+len);
+            count+=len;
+            i=0;
+            
+            //make the next word green
+            let k = document.getElementById("highlight");
+            k.style.backgroundColor="#CBFFA9";
+
+            //clear input box after completing the word
+            let kk = document.getElementById("input-box");
+            kk.value='';
+
+            i_box.style.backgroundColor = '';
+            i_box.style.shadow = '';
+            i_box.style.borderStyle = '';
+          }
+        }
+      }
+
+  }
+
    
-    if(first) {
-      //p_tag.innerHTML = first_paragraph;
-      first=false;
-    }else{
-      if(e.key.charCodeAt(0)==32 && i==words[index].length) {
-        if(index < words.length) {
-          index++;
-          count+=1; //for space
-          let len = words[index].length;
-          p_tag.innerHTML = paragraph.substring(0, count) + `<span id="highlight">${words[index]}</span>` + paragraph.substring(count+len);
-          count+=len;
-          i=0;
-          
-          //make the next word green
-          let k = document.getElementById("highlight");
-          k.style.backgroundColor="#CBFFA9";
-
-          //clear input box after completing the word
-          let kk = document.getElementById("input-box");
-          kk.value='';
-        }
-      }
-    }
-
 
 });
