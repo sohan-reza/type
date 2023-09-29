@@ -1,3 +1,5 @@
+"use strict";
+
 const jsonData = {
   "paragraphs": [
     "I'll tell you tomorrow. \"{BALL}\" and \"{BELL}\" aren't the same thing. One day, under the golden sun, an intriguing debate unfolded at a bustling street corner about the mystique of money. John, our protagonist, fascinated his friends with his knack for posing perplexing questions.Turning to his friends, John said, '[blip], have you ever considered that 90% of money could be merely 10%, yet still add up to a whopping 90%? The enigma of finance perplexes even the wisest.'Amidst laughter, 'MAN' responded, 'John, you amuse us with your riddles. But let me assure you, the arithmetic of money is not as whimsical.'MAN' revealed his need for 200,000 balls for a top-secret project. Inspired, John suggested a diversion. They recited the alphabet from A to Z and ventured into equations using symbols like /x/&Y#Z{+2}>>[Cc]=Y0.4 + @b, exploring squares and inequalities: 13579842 < 8 < R36.The following day, with newfound insights, they ordered $240,000 worth of 200,000 pink balls, each symbolizing their intellectual journey.",
@@ -10,8 +12,8 @@ const jsonData = {
     "In the bustling metropolis, a street artist painted a mural that captured the spirit of the city. Passersby paused to admire the vibrant colors and intricate details. 'Art,' he said, 'is a bridge between the ordinary and the extraordinary.'",
     "As the sun set over the tranquil lake, a solitary fisherman cast his line into the water. The ripples of the lake mirrored the colors of the evening sky. 'Here,' he whispered, 'the world finds its balance. In the distant future, robots and humans coexisted in harmony. Together, they built a world where technology and nature thrived side by side. 'Progress,' they agreed, 'should never come at the expense of our planet.'"
   ]
-  
 }
+
 
 
 const p_tag = document.getElementById("paragraph");
@@ -20,51 +22,55 @@ p_tag.innerText = jsonData.paragraphs[rand_index];
 const paragraph = jsonData.paragraphs[rand_index];
 
 const words = jsonData.paragraphs[rand_index].split(" ");
-let first=true;
+let first = true;
 
-let count=0;
-let index=0;
+let count = 0;
+let index = 0;
 count = words[0].length;
-let first_paragraph = `<span id="highlight">${words[index]}</span>`+paragraph.substring(count);
+let first_paragraph = `<span id="highlight">${words[index]}</span>` + paragraph.substring(count);
 
-p_tag.innerHTML=first_paragraph;
+p_tag.innerHTML = first_paragraph;
 
 
 let i = 0;
 
 let lock = false;
 let forrowed = 0;
+let init_time = 0;
+let wrong_typed = 0;
+let key_hit = 0;
 
+function main(e) {
 
-document.addEventListener('keydown', (e)=>{
-  let k = document.getElementById("highlight");
-  let i_box = document.getElementById("input-box");
-  //k.style.backgroundColor="#CBFFA9";
     
-
-
+    key_hit = 0;
+    let k = document.getElementById("highlight");
+    let i_box = document.getElementById("input-box");
+  //k.style.backgroundColor="#CBFFA9";
+    if (first) {
+        init_time = new Date();
+    }
     if (e.key === "Backspace") {
-        console.log(`decressed ${forrowed} ${i}`);  
-        forrowed--;
-        if (forrowed == 0) {
-          lock = false;
-        
-          return;
+        //console.log(`decressed ${forrowed} ${i}`);  
+        forrowed -= 1;
+        if (forrowed === 0) {
+            lock = false;
+            return;
         }
-        if (forrowed < 0 && i>0) {
+        if (forrowed < 0 && i > 0) {
             console.log("Afds");
             i--;
             forrowed = 0;
             //return;
-        }else if(forrowed<0 && i==0) {
-          forrowed = 0;
+        } else if (forrowed < 0 && i == 0) {
+            forrowed = 0;
         }
         
     }
 
 
     if (lock && (e.key !== "Backspace") && (forrowed > 0)) {
-      console.log(`incressed ${forrowed} ${i}`);  
+      //console.log(`incressed ${forrowed} ${i}`);  
       forrowed++;
     }
 
@@ -74,10 +80,12 @@ document.addEventListener('keydown', (e)=>{
         
         if (e.key !== words[index][i]) {
             //avoid first (Shift + key)'s shift 
-            if (!(e.key.charAt(0) === ' ' || e.key === "Shift" || e.key === "CapsLock" || e.key === "Backspace")) {
+            if (!((e.key.charAt(0) === ' ' && i === words[index].length) || e.key === "Control" || e.key==="Shift" || e.key==="CapsLock" || e.key==="Tab"|| e.key==="Escape"|| e.key==="Backspace" || e.key==="Enter")) {
                 //console.log(e.key.charAt(0) === ' ');
                 k.style.backgroundColor = "#ED2B2A";
+
                 if ((first == false) && (e.key.charAt(0) != " ")) {
+                   console.log("You called me");
                     i_box.style.backgroundColor = "#E8302F";
                     i_box.style.shadow = "0px 0px 3px #ED2B2A";
                     i_box.style.borderStyle = "2px solid #a45050";
@@ -86,9 +94,10 @@ document.addEventListener('keydown', (e)=>{
                 //if wrong key is pressed then stop index to incress
                 lock = true;
                 forrowed++;
+                wrong_typed++;
             }
         } else {
-            console.log(`${e.key} === ${words[index][i]}`);
+            //console.log(`${e.key} === ${words[index][i]}`);
             k.style.backgroundColor = "#CBFFA9";
 
             i_box.style.backgroundColor = '';
@@ -107,33 +116,68 @@ document.addEventListener('keydown', (e)=>{
     
       if (first) {
         first = false;
+        /*setInterval(() => {
+            key_hit++;
+            if (key_hit === 10) {
+              alert("You are not typing!");
+              location.reload();
+            }
+        },1000);*/
+        
       } else {
-        if(e.key.charCodeAt(0)==32 && i==words[index].length) {
+        if(e.key.charCodeAt(0) == 32 && i == words[index].length) {
+          
+
           if(index < words.length) {
-            index++;
-            count+=1; //for space
-            let len = words[index].length;
-            p_tag.innerHTML = paragraph.substring(0, count) + `<span id="highlight">${words[index]}</span>` + paragraph.substring(count+len);
-            count+=len;
-            i=0;
-            
-            //make the next word green
-            let k = document.getElementById("highlight");
-            k.style.backgroundColor="#CBFFA9";
+            console.log(index);
+            if(index == words.length-1) {
+              k.style.backgroundColor = "";
+              let kk = document.getElementById("input-box");
+              kk.value='';
 
-            //clear input box after completing the word
-            let kk = document.getElementById("input-box");
-            kk.value='';
+              let end_time = new Date();
+              Calculate(init_time, end_time);
+              document.removeEventListener('keydown', main);
+              
+            }else {
+              index++;
+              count+=1; //for space
+              let len = words[index].length;
+              p_tag.innerHTML = paragraph.substring(0, count) + `<span id="highlight">${words[index]}</span>` + paragraph.substring(count+len);
+              count+=len;
+              i=0;
+              
+              //make the next word green
+              let k = document.getElementById("highlight");
+              k.style.backgroundColor="#CBFFA9";
 
-            i_box.style.backgroundColor = '';
-            i_box.style.shadow = '';
-            i_box.style.borderStyle = '';
-          }
+              //clear input box after completing the word
+              let kk = document.getElementById("input-box");
+              kk.value='';
+
+              i_box.style.backgroundColor = '';
+              i_box.style.shadow = '';
+              i_box.style.borderStyle = '';
+            }
+          } 
         }
       }
 
   }
 
-   
+}
 
-});
+document.addEventListener('keydown', main);
+
+function Calculate(t1, t2) {
+    let t1_in_second = (t1.getMinutes() * 60) + t1.getSeconds();
+    let t2_in_second = (t2.getMinutes() * 60) + t2.getSeconds();
+    const total_seconds = t2_in_second - t1_in_second;
+    const total_words =  words.length;
+
+    const time = total_words * (60/total_seconds);
+
+    //formula Accuracy (%) = (Number of Correct Words / Total Number of Typed Words) * 100
+    const accuracy = ((words.length - wrong_typed) / words.length) * 100;
+    alert(`${time}  ${accuracy}`);
+}
