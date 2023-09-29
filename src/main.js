@@ -1,5 +1,5 @@
 "use strict";
-
+/*
 const jsonData = {
   "paragraphs": [
     "I'll tell you tomorrow. \"{BALL}\" and \"{BELL}\" aren't the same thing. One day, under the golden sun, an intriguing debate unfolded at a bustling street corner about the mystique of money. John, our protagonist, fascinated his friends with his knack for posing perplexing questions.Turning to his friends, John said, '[blip], have you ever considered that 90% of money could be merely 10%, yet still add up to a whopping 90%? The enigma of finance perplexes even the wisest.'Amidst laughter, 'MAN' responded, 'John, you amuse us with your riddles. But let me assure you, the arithmetic of money is not as whimsical.'MAN' revealed his need for 200,000 balls for a top-secret project. Inspired, John suggested a diversion. They recited the alphabet from A to Z and ventured into equations using symbols like /x/&Y#Z{+2}>>[Cc]=Y0.4 + @b, exploring squares and inequalities: 13579842 < 8 < R36.The following day, with newfound insights, they ordered $240,000 worth of 200,000 pink balls, each symbolizing their intellectual journey.",
@@ -11,6 +11,12 @@ const jsonData = {
     "The spaceship hurtled through the cosmos, its crew on a mission to explore distant planets. In the vast expanse of space, they encountered strange beings and unearthly landscapes. 'We are explorers,' they declared, 'and the universe is our canvas. Deep in the heart of the rainforest, a rare orchid bloomed. Its petals shimmered with iridescence, a sight few had witnessed. Biologists marveled at its beauty and studied its secrets. 'Nature,' they realized, 'holds the keys to countless mysteries.'",
     "In the bustling metropolis, a street artist painted a mural that captured the spirit of the city. Passersby paused to admire the vibrant colors and intricate details. 'Art,' he said, 'is a bridge between the ordinary and the extraordinary.'",
     "As the sun set over the tranquil lake, a solitary fisherman cast his line into the water. The ripples of the lake mirrored the colors of the evening sky. 'Here,' he whispered, 'the world finds its balance. In the distant future, robots and humans coexisted in harmony. Together, they built a world where technology and nature thrived side by side. 'Progress,' they agreed, 'should never come at the expense of our planet.'"
+  ]
+}
+*/
+const jsonData = {
+  "paragraphs": [
+    "Hello world"
   ]
 }
 
@@ -116,13 +122,13 @@ function main(e) {
     
       if (first) {
         first = false;
-        /*setInterval(() => {
+        setInterval(() => {
             key_hit++;
             if (key_hit === 10) {
-              alert("You are not typing!");
+              alert("You are not there!");
               location.reload();
             }
-        },1000);*/
+        },1000);
         
       } else {
         if(e.key.charCodeAt(0) == 32 && i == words[index].length) {
@@ -175,9 +181,22 @@ function Calculate(t1, t2) {
     const total_seconds = t2_in_second - t1_in_second;
     const total_words =  words.length;
 
-    const time = total_words * (60/total_seconds);
+    const wpm = total_words * (60/total_seconds);
 
     //formula Accuracy (%) = (Number of Correct Words / Total Number of Typed Words) * 100
     const accuracy = ((words.length - wrong_typed) / words.length) * 100;
-    alert(`${time}  ${accuracy}`);
+    
+    const wpm_html = document.getElementById("wpm");
+    wpm_html.innerText = wpm.toFixed(1);
+
+    const acc_html = document.getElementById("acc");
+    acc_html.innerText = accuracy;
+
+    const finished = document.getElementById("bottom-bar");
+    finished.style.visibility='visible';
+
+    const button = document.getElementById("again-button");
+    button.addEventListener('click', ()=> {
+      location.reload();
+    });
 }
